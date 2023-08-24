@@ -1,0 +1,6 @@
+FROM postgres:latest
+
+ENV POSTGRE_USER admin
+ENV POSTGRE_PWD admin741236
+ENV POSTGRE_DB record
+
