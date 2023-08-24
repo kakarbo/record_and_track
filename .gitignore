@@ -2,5 +2,8 @@
 .env
 
 #virtualenv
-venv/
+env/
 ENV/
+venv/
+
+/models/__pycache__/
