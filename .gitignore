@@ -1,0 +1,6 @@
+# dotenv
+.env
+
+#virtualenv
+venv/
+ENV/
