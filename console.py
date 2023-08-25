@@ -8,9 +8,9 @@ import shlex  # for splitting the line along spaces except in double quotes
 import models
 from models.customer import Customer
 from models.base_model import BaseModel
-from models.work_orders import Work_orders
+from models.work_orders import Work_order
 
-classes = {"Customer": Customer, "BaseModel": BaseModel, "Work_orders": Work_orders}
+classes = {"Customer": Customer, "BaseModel": BaseModel, "Work_orders": Work_order}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -59,6 +59,7 @@ class HBNBCommand(cmd.Cmd):
         if args[0] in classes:
             new_dict = self._key_value_parser(args[1:])
             instance = classes[args[0]](**new_dict)
+            print(new_dict)
         else:
             print("** class doesn't exist **")
             return False
