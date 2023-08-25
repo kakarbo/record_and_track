@@ -15,13 +15,13 @@ class Customer(BaseModel, Base):
     '''representation of customers'''
     __tablename__ = 'customers'
 
-    fist_name = Column(String(60), nullable=False)
+    first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
     address = Column(String(60), nullable=False)
     start_date = Column(DateTime, nullable=True)
     end_date = Column(DateTime, nullable=True)
     is_active = Column(Boolean, nullable=False)
-    work_order = relationship('Work_orders', backref='customer')
+    work_order = relationship('Work_order', back_populates='customer')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
