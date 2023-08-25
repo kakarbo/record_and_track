@@ -10,6 +10,10 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 import models
 from models.base_model import BaseModel, Base
+from models.customer import Customer
+from models.work_orders import Work_order
+
+classes = {"Customer": Customer, "Work_order": Work_order}
 
 
 class DBStorage:
@@ -35,7 +39,7 @@ class DBStorage:
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
                 for obj in objs:
-                    key = f'{obj.__class_.__name__}.{obj.id}'
+                    key = obj.__class_.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return new_dict
 
@@ -57,6 +61,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
+        print(Session)
         self.__session = Session
 
     def close(self):
