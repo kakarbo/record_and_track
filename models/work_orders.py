@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 '''holds class work_orders'''
 
+from datetime import datetime
 import enum
 
 import sqlalchemy
@@ -25,8 +26,20 @@ class Work_order(BaseModel, Base):
     title = Column(String(60), nullable=False)
     planned_date_begin = Column(DateTime, nullable=False)
     planned_date_end = Column(DateTime, nullable=False)
-    status = Column(Enum(Status), nullable=False)
+    status = Column(Enum(Status), default=Status.NEW, nullable=False)
     customer = relationship('Customer', back_populates='work_order')
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        for key, value in kwargs.items():
+            if key != "__class__":
+                setattr(self, key, value)
+            if kwargs.get("planned_date_begin", None) and type(self.created_at) is str:
+                self.planned_date_begin = datetime.strptime(kwargs["planned_date_begin"], time)
+            else:
+                self.planned_date_begin = datetime.utcnow()
+            if kwargs.get("planned_date_end", None) and type(self.updated_at) is str:
+                self.planned_date_end = datetime.strptime(kwargs["planned_date_end"], time)
+            else:
+                self.planned_date_end = datetime.utcnow()
+        super().__init__()
+
