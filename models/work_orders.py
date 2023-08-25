@@ -4,7 +4,8 @@
 import enum
 
 import sqlalchemy
-from sqlalchemy import Column, DateTime, String, ForeignKey
+from sqlalchemy import Column, DateTime, String, ForeignKey, Enum
+from sqlalchemy.orm import relationship
 
 import models
 from models.base_model import BaseModel, Base
@@ -16,7 +17,7 @@ class Status(enum.Enum):
     CANCELLED = 'cancelled'
 
 
-class Work_orders(BaseModel, Base):
+class Work_order(BaseModel, Base):
     '''representation of work_orders'''
     __tablename__ = 'work_orders'
 
@@ -25,6 +26,7 @@ class Work_orders(BaseModel, Base):
     planned_date_begin = Column(DateTime, nullable=False)
     planned_date_end = Column(DateTime, nullable=False)
     status = Column(Enum(Status), nullable=False)
+    customer = relationship('Customer', back_populates='work_order')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
