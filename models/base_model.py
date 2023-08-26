@@ -37,3 +37,15 @@ class BaseModel:
     def delete(self):
         '''delete the current instance form the storage'''
         models.storage.delete(self)
+
+    def to_dict(self, save_fs=None):
+        """returns a dictionary containing all keys/values of the instance"""
+        new_dict = self.__dict__.copy()
+        new_dict["__class__"] = self.__class__.__name__
+        print(new_dict)
+        if "_sa_instance_state" in new_dict:
+            del new_dict["_sa_instance_state"]
+        if 'status' in new_dict:
+            new_dict['status'] = new_dict['status'].value
+        
+        return new_dict

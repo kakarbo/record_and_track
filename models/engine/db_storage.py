@@ -34,12 +34,12 @@ class DBStorage:
             f'postgresql://{POSTGRES_USER}:{POSTGRES_PWD}@{POSTGRES_HOST}/{POSTGRES_DB}'
         )
 
-    def all(self, cls=None):
+    def all(self, cls=None, attribute=None, value=False):
         '''query on the current database session'''
         new_dict = {}
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(classes[clss]).all()
+                objs = self.__session.query(classes[clss]).filter(attribute <= value).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
@@ -114,3 +114,7 @@ class DBStorage:
             work_order.customer_id == id
         ).update({work_order.status: Status.CANCELLED})
         self.__session.commit()
+
+    def customer_id(self, cls, id):
+        return self.__session.query(cls).filter(Work_order.customer_id == id)
+
