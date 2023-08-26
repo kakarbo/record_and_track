@@ -3,7 +3,7 @@
 Este servicio permite registrar y realizar seguimiento a las órdenes de servicio para un predio o cliente particular.
 
 ## Execute
-Para ejecutar las databases y la API
+Para ejecutar las databases, la API, activar el entorno virtual y instalar las dependencias
 ```
 ./buildconf/build
 ```
