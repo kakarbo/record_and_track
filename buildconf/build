@@ -1,6 +1,11 @@
 #!/bin/bash
 
+echo "Activando el entorno virtual"
+source venv/bin/activate
+pip install -r requirements.txt
+
 echo "Running Docker compose"
 docker-compose up -d
 
+echo "Corriendo la API"
 python3 -m api.v1.app
