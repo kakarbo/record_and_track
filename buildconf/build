@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Running Docker compose"
+docker-compose up -d
+
+python3 -m api.v1.app
