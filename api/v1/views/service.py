@@ -13,7 +13,7 @@ from models import storage
 from models.work_orders import Status
 
 @app_views.route('/client_active', methods=['GET'], strict_slashes=False)
-@swag_from('documentation/customer/cliente_active.yml')
+@swag_from('documentation/service/client_active.yml')
 def get_client_active():
     """
     Retrieves the list of all clients actives
@@ -32,7 +32,7 @@ def convert_date(date):
     return date_datetime
 
 @app_views.route('/status/<status>', methods=['GET'], strict_slashes=False)
-@swag_from('documentation/Work_order/status.yml')
+@swag_from('documentation/service/status.yml')
 def get_order_status(status):
     list_status = ['new', 'done', 'cancelled']
     if status in list_status:
@@ -46,7 +46,7 @@ def get_order_status(status):
     return jsonify(list_status)
 
 @app_views.route('/id/<id>', methods=['GET'], strict_slashes=False)
-@swag_from('documentation/Work_order/status.yml')
+@swag_from('documentation/service/id.yml')
 def get_id(id):
     obj = storage.customer_id(Work_order, id)
     order = []
