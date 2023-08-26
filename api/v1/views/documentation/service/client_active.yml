@@ -1,0 +1,33 @@
+retrieves a list of all clients actives.
+---
+tags:
+  - Services
+
+responses:
+  200:
+    description: request executed successfully
+    schema:
+      type: array
+      items:
+        properties:
+          __class__:
+            type: string
+          address:
+            type: string
+          created_at:
+            type: string
+            description: time of creation of the instance
+          end_date:
+            type: string
+          first_name:
+             type: string
+          id:
+            type: string
+            description: The uuid of the instance
+          is_active:
+             type: string
+          last_name:
+             type: string
+             description: user's last name
+          start_date:
+             type: datetime
