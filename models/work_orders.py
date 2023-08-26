@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''holds class work_orders'''
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import enum
 
 import sqlalchemy
@@ -40,6 +40,6 @@ class Work_order(BaseModel, Base):
             if kwargs.get("planned_date_end", None) and type(self.updated_at) is str:
                 self.planned_date_end = datetime.strptime(kwargs["planned_date_end"], time)
             else:
-                self.planned_date_end = datetime.utcnow()
+                self.planned_date_end = datetime.utcnow() + timedelta(days=14)
         super().__init__()
 
