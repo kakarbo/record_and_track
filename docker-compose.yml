@@ -1,14 +1,26 @@
 version: '3'
 
 services:
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile.redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
   postgres:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.postgres
     ports:
       - "5432:5432"
+    networks:
+      - mynetwork
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+networks:
+  mynetwork:
 volumes:
   postgres_data:
