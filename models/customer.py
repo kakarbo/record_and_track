@@ -20,7 +20,7 @@ class Customer(BaseModel, Base):
     address = Column(String(60), nullable=False)
     start_date = Column(DateTime, nullable=True)
     end_date = Column(DateTime, nullable=True)
-    is_active = Column(Boolean, nullable=False)
+    is_active = Column(Boolean, default=False, nullable=False)
     work_order = relationship('Work_order', back_populates='customer')
 
     def __init__(self, *args, **kwargs):
