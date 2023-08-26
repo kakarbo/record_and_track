@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 '''Contains the class DBStorage'''
 
+from datetime import datetime
 from os import getenv
 
 from dotenv import load_dotenv
@@ -12,6 +13,7 @@ import models
 from models.base_model import BaseModel, Base
 from models.customer import Customer
 from models.work_orders import Work_order
+from models.work_orders import Status
 
 classes = {"Customer": Customer, "Work_order": Work_order}
 
@@ -39,7 +41,7 @@ class DBStorage:
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
                 for obj in objs:
-                    key = obj.__class_.__name__ + '.' + obj.id
+                    key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return new_dict
 
@@ -61,7 +63,6 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
-        print(Session)
         self.__session = Session
 
     def close(self):
@@ -82,3 +83,34 @@ class DBStorage:
                 return value
         
         return None
+    
+    def get_id_fo_name_client(self, cls, search_client):
+        result = self.__session.query(cls).filter(cls.first_name == search_client)
+        for client in result:
+            return client.id
+
+    def get_client(self, cls, search_client):
+        return self.__session.query(cls).filter(cls.first_name == search_client)
+
+    def update(self, customer, work_order, search_client):
+        client = self.get_client(customer, search_client)
+        id = self.get_id_fo_name_client(customer, search_client)
+        client.update(
+            {customer.is_active: True, customer.start_date: datetime.utcnow()}
+        )
+        self.__session.query(work_order).filter(
+            work_order.customer_id == id
+        ).update({work_order.status: Status.DONE})
+        self.__session.commit()
+        return client
+
+    def other_update(self, customer, work_order, search_client):
+        id = self.get_id_fo_name_client(customer, search_client)
+        client = self.get_client(customer, search_client)
+        client.update(
+            {customer.is_active: False, customer.end_date: datetime.utcnow()}
+        )
+        self.__session.query(work_order).filter(
+            work_order.customer_id == id
+        ).update({work_order.status: Status.CANCELLED})
+        self.__session.commit()
