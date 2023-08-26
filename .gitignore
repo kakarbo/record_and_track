@@ -7,3 +7,4 @@ ENV/
 venv/
 
 /models/__pycache__/
+/cache/__pycache__/
