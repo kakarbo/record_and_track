@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from datetime import datetime
 import json
 
-from cache.cache import Submit_event
+from event.event import Submit_event
 import models
 from models.customer import Customer
 from models.base_model import BaseModel

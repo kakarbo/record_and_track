@@ -2,6 +2,8 @@
 
 echo "Activando el entorno virtual"
 source venv/bin/activate
+
+echo "Instanlando las dependencias"
 pip install -r requirements.txt
 
 echo "Running Docker compose"
